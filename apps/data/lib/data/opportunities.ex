@@ -5,11 +5,14 @@ defmodule Data.Opportunities do
 
   alias Data.{Opportunity, Repo}
 
-  @defaults %{page_size: 25}
+  @defaults %{include: [], page: 1, page_size: 25}
 
   def all(opts \\ %{}) do
     opts = Map.merge(@defaults, opts)
-    Repo.paginate(Opportunity, page_size: opts.page_size)
+
+    Opportunity
+    |> Repo.paginate(page: opts.page, page_size: opts.page_size)
+    |> include(opts.include)
   end
 
   def get(params), do: Repo.get_by(Opportunity, params)
@@ -37,5 +40,11 @@ defmodule Data.Opportunities do
     struct
     |> Opportunity.changeset(params)
     |> Repo.update
+  end
+
+  defp include(results, nil), do: results
+  defp include(%{entries: entries} = results, schemas) do
+    preloaded = Repo.preload(entries, schemas)
+    Map.put(results, :entries, preloaded)
   end
 end

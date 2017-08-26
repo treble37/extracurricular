@@ -1,19 +1,22 @@
 defmodule Web.OpportunitiesControllerTest do
   use Web.ConnCase
 
-  alias Data.Opportunities
+  alias Data.{Opportunities, Projects}
 
-  test "GET /list", %{conn: conn} do
+  test "GET /opportunities", %{conn: conn} do
+    {:ok, %{id: project_id}} = Projects.insert(%{name: "Example Project", url: "example.com"})
+
     attributes = %{
       level: "beginner",
-      project_id: insert(:project).id,
+      project_id: project_id,
       title: "Example Opportunity",
       url: "https://example.com/tracker/1"
     }
-    Opportunities.insert(attributes)
-    Opportunities.insert(%{attributes | title: "Another Opportunity"})
 
-    conn = get conn, "/list"
+    Opportunities.insert(attributes)
+    Opportunities.insert(%{attributes | title: "Another Opportunity", url: "https://example.com/tracker/2"})
+
+    conn = get conn, "/opportunities"
     assert html_response(conn, 200) =~ "Example Opportunity"
     assert html_response(conn, 200) =~ "Another Opportunity"
   end

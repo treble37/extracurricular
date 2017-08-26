@@ -10,16 +10,16 @@
     </div>
   </header>
   <main class="container">
-  <%= for results <- @results do %>
+  <%= for result <- @results.entries do %>
     <div class="result">
-      <h3><%= link results.title, to: results.url %></h3>
+      <h3><%= link result.title, to: result.url %></h3>
       <div class="meta">
-        <div class="top">Project: <%= link results.project.name, to: results.project.url %></div>
+        <div class="top">Project: <%= link result.project.name, to: result.project.url %></div>
         <div class="bottom">
-        <%= for tag <- results.project.tags do %>
+        <%= for tag <- result.project.tags do %>
         <span class="badge-tag"><svg class="icon icon-tag"><use xlink:href="#icon-tag"></use></svg> <%= tag %></span>
         <% end %>
-          <span class="badge-<%= results.level %>"><%= results.level %></span></div>
+          <span class="badge-<%= result.level %>"><%= result.level %></span></div>
       </div>
     </div>
   <% end %>
@@ -31,7 +31,7 @@
     </ul>
     <div class="footer-secondary-links">
       <ul>
-        <li>&copy; 2017 <a href="https://elixirschool.org" target="_blank">Elixir School</a></li>
+        <li>&copy; 2017 <a href="https://elixirschool.com" target="_blank">Elixir School</a></li>
       </ul>
       <ul class="footer-social">
         <li><a href="javascript:void(0)">
