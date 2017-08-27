@@ -13,4 +13,10 @@ defmodule Web.OpportunitiesView do
       _ -> gettext("difficulty-unknown")
     end
   end
+
+  def translated_type(%{type: "type-bug"}), do: gettext("type-bug")
+  def translated_type(%{type: "type-documentation"}), do: gettext("type-documentation")
+  def translated_type(%{type: "type-enhancement"}), do: gettext("type-enhancement")
+  def translated_type(%{type: "type-feature"}), do: gettext("type-feature")
+  def translated_type(%{type: "type-unknown"}), do: gettext("type-unknown")
 end
